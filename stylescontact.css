@@ -1,0 +1,121 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.contact-info {
+    margin-bottom: 2rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.contact-form-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+    gap: 1rem;
+    transition: transform 0.3s;
+}
+
+.contact-item:hover {
+    transform: translateX(10px);
+}
+
+/* LinkedIn */
+.contact-item.linkedin i {
+    color: #0077B5;
+}
+
+/* Email */
+.contact-item.email i {
+    color: #EA4335;
+}
+
+/* Phone */
+.contact-item.phone i {
+    color: #34B7F1;
+}
+
+.contact-item i {
+    font-size: 1.8rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f8f9fa;
+    transition: transform 0.3s;
+}
+
+.contact-item:hover i {
+    transform: scale(1.1);
+}
+
+.contact-item a {
+    color: #2c3e50;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+
+.contact-item a:hover {
+    color: #3498db;
+}
+
+.contact-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-form input,
+.contact-form textarea {
+    border: 2px solid #e0e0e0;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.contact-form button {
+    background: #3498db;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.contact-form button:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .contact-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-info, .contact-form-section {
+        padding: 1.5rem;
+    }
+}

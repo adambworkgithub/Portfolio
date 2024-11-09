@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Contact</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="stylescontact.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav>
@@ -17,12 +20,38 @@
     <div class="page">
         <div class="container">
             <h1>Contact Me</h1>
-            <form class="contact-form">
-                <input type="text" placeholder="Name" required>
-                <input type="email" placeholder="Email" required>
-                <textarea placeholder="Message" rows="5" required></textarea>
-                <button type="submit">Send Message</button>
-            </form>
+            
+            <div class="contact-section">
+                <div class="contact-info">
+                    <h2>Get in Touch</h2>
+                    <p>Feel free to reach out through any of the following channels:</p>
+                    
+                    <div class="contact-item linkedin">
+                        <i class="fab fa-linkedin"></i>
+                        <a href="https://linkedin.com/in/your-profile" target="_blank">LinkedIn Profile</a>
+                    </div>
+
+                    <div class="contact-item email">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:your.email@example.com">your.email@example.com</a>
+                    </div>
+
+                    <div class="contact-item phone">
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:+1234567890">+1 (234) 567-890</a>
+                    </div>
+                </div>
+
+                <div class="contact-form-section">
+                    <h2>Send a Message</h2>
+                    <form class="contact-form">
+                        <input type="text" placeholder="Name" required>
+                        <input type="email" placeholder="Email" required>
+                        <textarea placeholder="Message" rows="5" required></textarea>
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </body>
