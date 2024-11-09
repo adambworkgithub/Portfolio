@@ -1,26 +1,67 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
 body {
-    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background: #f4f4f4;
+}
+
+nav {
+    background: #333;
+    padding: 1rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 1rem;
+    padding: 0.5rem;
+}
+
+nav a:hover, nav a.active {
+    background: #555;
+    border-radius: 4px;
+}
+
+.page {
+    padding: 6rem 2rem 2rem;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    margin: 2rem auto;
 }
 
 .contact-info {
-    margin-bottom: 2rem;
     background: white;
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-}
-
-.contact-form-section {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    width: 100%;
 }
 
 h2 {
     color: #2c3e50;
     margin-bottom: 1.5rem;
     font-weight: 600;
+    text-align: center;
 }
 
 .contact-item {
@@ -35,17 +76,14 @@ h2 {
     transform: translateX(10px);
 }
 
-/* LinkedIn */
 .contact-item.linkedin i {
     color: #0077B5;
 }
 
-/* Email */
 .contact-item.email i {
     color: #EA4335;
 }
 
-/* Phone */
 .contact-item.phone i {
     color: #34B7F1;
 }
@@ -77,45 +115,21 @@ h2 {
     color: #3498db;
 }
 
-.contact-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.contact-form input,
-.contact-form textarea {
-    border: 2px solid #e0e0e0;
-    transition: border-color 0.3s;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-    border-color: #3498db;
-    outline: none;
-}
-
-.contact-form button {
-    background: #3498db;
-    color: white;
-    padding: 0.8rem 1.5rem;
-    font-size: 1.1rem;
-    transition: background 0.3s, transform 0.3s;
-}
-
-.contact-form button:hover {
-    background: #2980b9;
-    transform: translateY(-2px);
-}
-
-@media (max-width: 768px) {
-    .contact-section {
-        grid-template-columns: 1fr;
+@media (max-width: 600px) {
+    nav {
+        text-align: center;
     }
     
-    .contact-info, .contact-form-section {
+    nav a {
+        display: inline-block;
+        margin: 0.25rem;
+    }
+
+    .page {
+        padding: 8rem 1rem 2rem;
+    }
+
+    .contact-info {
         padding: 1.5rem;
     }
 }
