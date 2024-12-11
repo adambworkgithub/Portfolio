@@ -211,3 +211,56 @@ button:hover {
         padding: 1.5rem;
     }
 }
+
+/* Experience Page */
+.experience-item {
+    background: white;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.experience-header h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.date {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.job-title {
+    color: #3498db;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.experience-item ul {
+    list-style-position: inside;
+    padding-left: 1rem;
+}
+
+.experience-item li {
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 600px) {
+    .experience-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .date {
+        margin-top: 0.25rem;
+    }
+}
