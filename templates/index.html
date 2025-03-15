@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adam Bagnall - Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <header>
@@ -12,16 +11,16 @@
             <span>Adam Bagnall</span>
         </div>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="experience.html">Experience</a>
-            <a href="projects.html">Projects</a>
-            <a href="contact.html">Contact</a>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('experience') }}">Experience</a>
+            <a href="{{ url_for('projects') }}">Projects</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
         </nav>
     </header>
 
     <div class="container">
         <div class="profile-image">
-            <img src="Headshot.png" alt="Adam Bagnall">
+            <img src="{{ url_for('static', filename='Headshot.png') }}" alt="Adam Bagnall">
         </div>
         <div class="bio">
             <h1>Adam Bagnall</h1>
@@ -30,11 +29,16 @@
             </p>
         </div>
         <div class="buttons">
-            <a href="index.html" class="resume">Home</a>
-            <a href="experience.html" class="research">Experience</a>
-            <a href="projects.html" class="outreach">Projects</a>
-            <a href="contact.html" class="personal">Contact</a>
+            <a href="{{ url_for('home') }}" class="resume">Home</a>
+            <a href="{{ url_for('experience') }}" class="research">Experience</a>
+            <a href="{{ url_for('projects') }}" class="outreach">Projects</a>
+            <a href="{{ url_for('contact') }}" class="personal">Contact</a>
         </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <div class="visitor-counter">
+        <p>Visitors: {{ visitor_count }}</p>
     </div>
 </body>
 </html>
