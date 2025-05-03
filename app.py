@@ -23,6 +23,15 @@ def init_db():
             page TEXT
         )
     ''')
+
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS tech_stack (
+            id SERIAL PRIMARY KEY,
+            technology VARCHAR(255),
+            proficiency INT CHECK(proficiency >=1 AND proficiency <=5)
+        )
+    ''')
+
     conn.commit()
     cur.close()
     conn.close()
@@ -89,7 +98,7 @@ def get_skill_levels():
              FROM tech_stack GROUP BY technology
          """)
          
-          return {row[0]: row[1] for row in cur}
+         return {row[0]: row[1] for row in cur}
           
      except Exception as e:
           print(f"Error getting levels {e}")
