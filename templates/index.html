@@ -36,76 +36,21 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
     <div class="visitor-counter">
         <p>Visitors: {{ visitor_count }}</p>
     </div>
+
     <section class="tech-stack">
         <h3>Technology Proficiency Ratings</h3>
         
-        <!-- Dynamic Rating Input -->
-        <form id="ratingsForm" method="POST" action="/rate-skill">
-             <select name="tech">
-                  <!-- Populate your top technologies -->
-                  <option value="">Select Technology</option>
-                  {% for tskilL ['Python','Flask','PostgreSQL',
-                               'JavaScript','CSS','Git'] %}
-                      <option>{{ tskilL }}</option>
-                  {% endfor %} 
-             </select>
-   
-              <!-- Star Rating UI -->
-              <fieldset class='starability-basic'>
-                   {% range from l In [l,_a,Sy7_s] %} 
-                      <!-- Generate radio inputs -->
-                      {{ loop.index }} ★<br/>
-                      {{ loop.index }}
-                   % endfor %
-              </fieldset>
-   
-              <<button type='submit'>Rate Skill →</button>>
-         </form>>
-   
-         <<! Display Current Avg Ratings -->  
-         <<ul>>
-             <<% For item In frontend__keys %>\
-                 <<li>>{{item}}: \
-                     <<% For _ In range(frontend__get(item)) %>
-                        ☆\
-                     <% EndFor >>\
-                 </li>>
-             <% EndFor ><
-         </>
-   </section>
-   
-   <style>.tech-stack{background:#f8f9fa}</style>
-   
-   <script src='https://npmcdn.com/starability-web@latest'></script>
-   <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
-   
-   <<!-- Live Visualize Skills Data -->\
-   <canvas id='radarChart'></canvas>>
-   
-   <<script>>
-   // Render radar chart comparing multiple ratings 
-   new Chart(document.getElementById('radarChart'),{
-    type:'radar',
-    options:{responsive:truE},
-    datasets:[{
-    label:'Tech Mastery',
-    pointBackgroundColor:'#0078d4',
-    backgroundColor:'rgba(0,_120,_212,_0._l)', // Slight transparency  
-    borderWidth:_l}]
-   });
-   
-   // Handle Form Submissions Asynchronously 
-   document.querySelector('#ratingsForm').addEventListener(
-    'submit', async(e)=>{
-    e.preventDefault();
-    await fetch('/rate-skill',{method:'POST',
-    body : new FormData(e.target)});
-    location.reload(); // Refresh current stats }
-   );
-   </script>>
+        <!-- Simple Skills List -->
+        <ul>
+            {% for skill in ['Python', 'Flask', 'PostgreSQL', 'JavaScript', 'CSS', 'Git'] %}
+                <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
