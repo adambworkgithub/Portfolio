@@ -6,9 +6,9 @@ env/
 
 # Python
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
+.py[cod]
+$py.class
+.so
 .Python
 build/
 develop-eggs/
@@ -22,15 +22,15 @@ parts/
 sdist/
 var/
 wheels/
-*.egg-info/
+.egg-info/
 .installed.cfg
-*.egg
+.egg
 
 # IDE
 .idea/
 .vscode/
-*.swp
-*.swo
+.swp
+.swo
 
 # OS
 .DS_Store
