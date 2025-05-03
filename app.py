@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from datetime import datetime
 import psycopg2
 from urllib.parse import urlparse
@@ -42,7 +42,58 @@ def log_visit(page):
 @app.route('/')
 def home():
     count = log_visit('home')
-    return render_template('index.html', visitor_count=count)
+    return render_template('index.html', visitor_count=count, frontend_skills=get_skill_levels())
+
+@app.route('/rate-skill', methods=['POST'])
+def rate_skill():
+     try:
+         conn = get_db_connection()
+         cur = conn.cursor()
+         cur.execute("""
+             CREATE TABLE IF NOT EXISTS tech_stack (
+                 id SERIAL PRIMARY KEY,
+                 technology VARCHAR(255),
+                 proficiency INT CHECK(proficiency >=1 AND proficiency <=5)
+             )
+         """)
+         # Get votes from form
+         tech = request.form.get('tech')
+         vote_value = int(request.form.get('vote'))
+         
+         # Store vote
+         cur.execute("""
+             INSERT INTO tech_stack(technology, proficiency)
+             VALUES (%s,%s)
+             ON CONFLICT(technology) DO UPDATE SET proficiency=%s
+             RETURNING *
+         """, [tech.lower(), vote_value])
+         
+         conn.commit()
+     except Exception as e:
+         print(f"Error saving vote {e}")
+     finally:
+         if conn:
+             conn.close()
+
+     return {'status': 'success'}
+ 
+def get_skill_levels():
+     try:
+         conn = get_db_connection()
+         cur = conn.cursor()
+         
+         # Average votes per technology
+         cur.execute("""
+             SELECT technology::text AS tech,
+                    ROUND(AVG(proficiency)) AS level 
+             FROM tech_stack GROUP BY technology
+         """)
+         
+          return {row[0]: row[1] for row in cur}
+          
+     except Exception as e:
+          print(f"Error getting levels {e}")
+          return {}
 
 @app.route('/experience')
 def experience():
