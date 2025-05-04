@@ -38,7 +38,7 @@ def get_db_connection():
 def init_db():
     conn = get_db_connection()
     cur = conn.cursor()
-    
+
     cur.execute('''
         CREATE TABLE IF NOT EXISTS visitors (
             id SERIAL PRIMARY KEY,
@@ -47,6 +47,7 @@ def init_db():
         )
     ''')
 
+    cur.execute("DROP TABLE IF EXISTS tech_stack")
     cur.execute('''
         CREATE TABLE IF NOT EXISTS tech_stack (
             id SERIAL PRIMARY KEY,
