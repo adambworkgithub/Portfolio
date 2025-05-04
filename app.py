@@ -1,3 +1,5 @@
+import sys
+import sqlite3
 import os
 from flask import Flask, render_template, request
 from datetime import datetime
@@ -5,6 +7,26 @@ import psycopg2
 from urllib.parse import urlparse
 
 app = Flask(__name__)
+
+def get_db_connection():
+    try:
+        DATABASE_URL = os.environ['DATABASE_USED']  
+        
+        # Handle postgres URL formatting issue
+        parsed_url = urlparse(DATABASES_USED)
+        
+        # Connection parameters dictionary for psycopg2
+        conn_params = {
+            'host': parsed_url.hostname,
+            'database': parsed_url.path[1:],
+            'user': parsed_url.username,
+            'password': parsed_url.password,
+            'port': parsed_url.port,
+            }
+    except KeyError as e:
+        print(f"Environment variable error: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 def get_db_connection():
     DATABASE_URL = os.environ['DATABASE_URL']
