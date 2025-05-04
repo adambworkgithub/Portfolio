@@ -1,8 +1,7 @@
 import sys
 import sqlite3
 import os
-from fl
-ask import Flask, render_template, request
+from flask import Flask, render_template, request
 from datetime import datetime
 import psycopg2
 from urllib.parse import urlparse
