@@ -49,7 +49,7 @@ def init_db():
 
     cur.execute("DROP TABLE IF EXISTS tech_stack")
     cur.execute('''
-        CREATE TABLE IF NOT EXISTS tech_stack (
+        CREATE TABLE tech_stack (
             id SERIAL PRIMARY KEY,
             technology VARCHAR(255) UNIQUE,
             proficiency INT CHECK(proficiency >=1 AND proficiency <=5)
