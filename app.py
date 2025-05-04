@@ -1,32 +1,13 @@
 import sys
 import sqlite3
 import os
-from flask import Flask, render_template, request
+from fl
+ask import Flask, render_template, request
 from datetime import datetime
 import psycopg2
 from urllib.parse import urlparse
 
 app = Flask(__name__)
-
-def get_db_connection():
-    try:
-        DATABASE_URL = os.environ['DATABASE_USED']  
-        
-        # Handle postgres URL formatting issue
-        parsed_url = urlparse(DATABASES_USED)
-        
-        # Connection parameters dictionary for psycopg2
-        conn_params = {
-            'host': parsed_url.hostname,
-            'database': parsed_url.path[1:],
-            'user': parsed_url.username,
-            'password': parsed_url.password,
-            'port': parsed_url.port,
-            }
-    except KeyError as e:
-        print(f"Environment variable error: {e}")
-    except Exception as e:
-        print(f"An error occurred: {e}")
 
 def get_db_connection():
     DATABASE_URL = os.environ['DATABASE_URL']
@@ -89,13 +70,7 @@ def rate_skill():
      try:
          conn = get_db_connection()
          cur = conn.cursor()
-         cur.execute("""
-             CREATE TABLE IF NOT EXISTS tech_stack (
-                 id SERIAL PRIMARY KEY,
-                 technology VARCHAR(255),
-                 proficiency INT CHECK(proficiency >=1 AND proficiency <=5)
-             )
-         """)
+
          # Get votes from form
          tech = request.form.get('tech')
          vote_value = int(request.form.get('vote'))
@@ -125,7 +100,7 @@ def get_skill_levels():
          # Average votes per technology
          cur.execute("""
              SELECT technology::text AS tech,
-                    ROUND(AVG(proficiency)) AS level 
+                    ROUND(AVG(proficiency)):: INT AS level 
              FROM tech_stack GROUP BY technology
          """)
          
