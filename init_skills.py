@@ -32,7 +32,7 @@ def initialize_skills():
             VALUES (%s,%s)
             ON CONFLICT (technology) DO UPDATE 
             SET proficiency = EXCLUDED.proficiency;
-        """, [tech.lower(), vote_value])
+        """, [tech.lower(), proficiency])
     
     conn.commit()
     cur.close()
