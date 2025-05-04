@@ -38,6 +38,7 @@ def get_db_connection():
 def init_db():
     conn = get_db_connection()
     cur = conn.cursor()
+    
     cur.execute('''
         CREATE TABLE IF NOT EXISTS visitors (
             id SERIAL PRIMARY KEY,
@@ -49,7 +50,7 @@ def init_db():
     cur.execute('''
         CREATE TABLE IF NOT EXISTS tech_stack (
             id SERIAL PRIMARY KEY,
-            technology VARCHAR(255),
+            technology VARCHAR(255) UNIQUE,
             proficiency INT CHECK(proficiency >=1 AND proficiency <=5)
         )
     ''')
