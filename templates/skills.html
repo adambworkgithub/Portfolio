@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Technical Skills</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span>Adam Bagnall</span>
+        </div>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('experience') }}">Experience</a>
+            <a href="{{ url_for('projects') }}">Projects</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+            <a href="{{ url_for('skills') }}">Skills</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Technology Proficiencies</h1>
+        
+        <div class="skills-container">
+            {% for skill_name, level in frontend_skills.items() %}
+            <div class="skill-item">
+                <span class="skill-name">{{ skill_name }}</span>
+                <div class="skill-rating">
+                    {% for i in range(level) %}
+                    ★
+                    {% endfor %}
+                    {% for i in range(5 - level) %}
+                    ☆
+                    {% endfor %}
+                    ({{ level }}/5)
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Voting Form -->
+        <!-- Add your voting form here if needed -->
+        
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <div class="visitor-counter">
+        <p>Visitors: {{ visitor_count }}</p>
+    </div>
+</body>
+</html>

@@ -53,6 +53,13 @@ def home():
     count = log_visit('home')
     return render_template('index.html', visitor_count=count, frontend_skills=get_skill_levels())
 
+@app.route('/skills')
+def skills():
+    count = log_visit('skills')
+    return render_template('skills.html', 
+                         visitor_count=count,
+                         frontend_skills=get_skill_levels())
+
 @app.route('/rate-skill', methods=['POST'])
 def rate_skill():
      try:
