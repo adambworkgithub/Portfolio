@@ -25,7 +25,7 @@ def initialize_skills():
     conn = get_db_connection()
     cur = conn.cursor()
 
-    # Insert initial skill ratings
+    
     for tech, proficiency in skills:
         cur.execute("""
             INSERT INTO tech_stack (technology, proficiency)
