@@ -3,7 +3,8 @@ import sqlite3
 import os
 from flask import Flask, render_template, request
 from datetime import datetime
-import psycopg2
+import psycopg
+conn = psycopg.connect(DATABASE_URL, autocommit=True)
 from urllib.parse import urlparse
 
 app = Flask(__name__)
