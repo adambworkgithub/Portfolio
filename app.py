@@ -4,7 +4,6 @@ import os
 from flask import Flask, render_template, request
 from datetime import datetime
 import psycopg
-conn = psycopg.connect(DATABASE_URL, autocommit=True)
 from urllib.parse import urlparse
 
 app = Flask(__name__)
@@ -13,7 +12,7 @@ def get_db_connection():
     DATABASE_URL = os.environ['DATABASE_URL']
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
-    conn = psycopg2.connect(DATABASE_URL)
+    conn = psycopg.connect(DATABASE_URL)
     return conn
 
 def init_db():
