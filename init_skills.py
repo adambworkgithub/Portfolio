@@ -27,12 +27,16 @@ def initialize_skills():
 
     
     for tech, proficiency in skills:
+        tech_key = tech.lower()
+        display_name = tech
+
         cur.execute("""
-            INSERT INTO tech_stack (technology, proficiency)
-            VALUES (%s,%s)
-            ON CONFLICT (technology) DO UPDATE 
-            SET proficiency = EXCLUDED.proficiency;
-        """, [tech.lower(), proficiency])
+            INSERT INTO tech_stack (technology_key, display_name, proficiency)
+            VALUES (%s,%s,%s)
+            ON CONFLICT (technology_key) DO UPDATE 
+            SET display_name = EXCLUDED.display_name,
+                proficiency = EXCLUDED.proficiency;
+        """, [tech_key, display_name, proficiency])
     
     conn.commit()
     cur.close()

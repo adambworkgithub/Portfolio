@@ -32,6 +32,7 @@ def init_db():
         CREATE TABLE tech_stack (
             id SERIAL PRIMARY KEY,
             technology VARCHAR(255) UNIQUE,
+            display_name VARCHAR(255),
             proficiency INT CHECK(proficiency >=1 AND proficiency <=5)
         )
     ''')
@@ -73,18 +74,23 @@ def rate_skill():
          # Get votes from form
          tech = request.form.get('tech')
          vote_value = int(request.form.get('vote'))
+         tech_key = tech.lower() #lower for conflict
+         display_name = tech.title() #Proper cap
          
          # Store vote
          cur.execute("""
-             INSERT INTO tech_stack(technology, proficiency)
-             VALUES (%s,%s)
-             ON CONFLICT(technology) DO UPDATE SET proficiency=%s
+             INSERT INTO tech_stack(technology_key, display_name, proficiency)
+             VALUES (%s,%s,%s)
+             ON CONFLICT(technology_key) DO UPDATE SET
+                     display_name = EXCLUDED.display_name,
+                     proficiency = EXCLUDED.proficiency
              RETURNING *
-         """, [tech.lower(), vote_value])
+         """, [tech.key, display_name, vote_value])
          
          conn.commit()
      except Exception as e:
          print(f"Error saving vote {e}")
+         return {'status': 'error'}
      finally:
          if conn:
              conn.close()
@@ -98,9 +104,10 @@ def get_skill_levels():
          
          # Average votes per technology
          cur.execute("""
-             SELECT technology::text AS tech,
-                    ROUND(AVG(proficiency)):: INT AS level 
-             FROM tech_stack GROUP BY technology
+             SELECT display_name::text AS tech,
+                     ROUND(AVG(proficiency)):: INT AS level 
+             FROM tech_stack 
+             GROUP BY display_name, technology_key
          """)
          
          return {row[0]: row[1] for row in cur}
