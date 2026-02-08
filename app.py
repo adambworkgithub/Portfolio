@@ -19,23 +19,23 @@ def init_db():
     conn = get_db_connection()
     cur = conn.cursor()
 
-    cur.execute('''
+    cur.execute("""
         CREATE TABLE IF NOT EXISTS visitors (
             id SERIAL PRIMARY KEY,
             timestamp TIMESTAMP,
             page TEXT
         )
-    ''')
+    """)
 
     cur.execute("DROP TABLE IF EXISTS tech_stack")
-    cur.execute('''
+    cur.execute("""
         CREATE TABLE tech_stack (
             id SERIAL PRIMARY KEY,
             technology_key VARCHAR(255) UNIQUE,
             display_name VARCHAR(255),
             proficiency INT CHECK(proficiency >=1 AND proficiency <=5)
         )
-    ''')
+    """)
 
     #Seeding
     initial_skills = [ ('python', 'Python', 3),
