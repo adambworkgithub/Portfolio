@@ -27,7 +27,6 @@ def init_db():
         )
     """)
 
-    cur.execute("DROP TABLE IF EXISTS tech_stack")
     cur.execute("""
         CREATE TABLE tech_stack (
             id SERIAL PRIMARY KEY,
@@ -46,7 +45,6 @@ def init_db():
                           ('git', 'Git', 4),
                           ('html', 'HTML', 4),
                           ('sql', 'SQL', 4),
-                          ('c', 'C', 3),
                           ('figma', 'Figma', 3),
                           ('canva', 'Canva', 3),
                           ('autodesk fusion 360', 'Autodesk Fusion 360', 2),
@@ -57,16 +55,18 @@ def init_db():
                           ('access', 'Access', 3),
                           ('excel','Excel',4)
                         ]
+    
     for tech_key, display_name, proficiency in initial_skills:
         cur.execute("""
             INSERT INTO tech_stack (technology_key, display_name, proficiency)
             VALUES (%s,%s,%s)
-            ON CONFLICT (technology_key) DO NOTHING 
-        """, [tech_key, display_name, proficiency])    
+            ON CONFLICT (technology_key) DO UPDATE SET
+                display_name = EXCLUDED.display_name,
+                proficiency = EXCLUDED.proficiency;
+        """, (tech_key.lower(), display_name.title(), proficiency)) 
 
     conn.commit()
     cur.close()
-    conn.close()
 
 def log_visit(page):
     conn = get_db_connection()
