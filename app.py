@@ -166,7 +166,7 @@ def contact():
     count = log_visit('contact')
     return render_template('contact.html', visitor_count=count)
 
-if __name__ == 'main':
+if __name__ == '__main__':
     init_db()
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
