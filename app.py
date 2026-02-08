@@ -116,7 +116,7 @@ def rate_skill():
                     display_name = EXCLUDED.display_name,
                     proficiency = EXCLUDED.proficiency
             RETURNING *
-        """, [tech.key, display_name, vote_value])
+        """, [tech_key, display_name, vote_value])
         
         conn.commit()
     except Exception as e:
