@@ -9,11 +9,12 @@ from urllib.parse import urlparse
 app = Flask(__name__)
 
 def get_db_connection():
-    DATABASE_URL = os.environ['DATABASE_URL']
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    if not DATABASE_URL:
+        raise RuntimeError("DATABASE_URL environment variable is not set")
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
-    conn = psycopg.connect(DATABASE_URL)
-    return conn
+    return psycopg.connect(DATABASE_URL)
 
 def init_db():
     conn = get_db_connection()
