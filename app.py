@@ -31,11 +31,38 @@ def init_db():
     cur.execute('''
         CREATE TABLE tech_stack (
             id SERIAL PRIMARY KEY,
-            technology VARCHAR(255) UNIQUE,
+            technology_key VARCHAR(255) UNIQUE,
             display_name VARCHAR(255),
             proficiency INT CHECK(proficiency >=1 AND proficiency <=5)
         )
     ''')
+
+    #Seeding
+    initial_skills = [ ('python', 'Python', 3),
+                          ('flask', 'Flask', 3),
+                          ('postgresql', 'PostgreSQL', 3),
+                          ('javascript', 'JavaScript', 2),
+                          ('css', 'CSS', 4),
+                          ('git', 'Git', 4),
+                          ('html', 'HTML', 4),
+                          ('sql', 'SQL', 4),
+                          ('c', 'C', 3),
+                          ('figma', 'Figma', 3),
+                          ('canva', 'Canva', 3),
+                          ('autodesk fusion 360', 'Autodesk Fusion 360', 2),
+                          ('adobe illustrator', 'Adobe Illustrator', 2),
+                          ('adobe photoshop', 'Adobe Photoshop', 3),
+                          ('adobe xd', 'Adobe XD', 3),
+                          ('arduino', 'Arduino', 2),
+                          ('access', 'Access', 3),
+                          ('excel','Excel',4)
+                        ]
+    for tech_key, display_name, proficiency in initial_skills:
+        cur.execute("""
+            INSERT INTO tech_stack (technology_key, display_name, proficiency)
+            VALUES (%s,%s,%s)
+            ON CONFLICT (technology_key) DO NOTHING 
+        """, [tech_key, display_name, proficiency])    
 
     conn.commit()
     cur.close()
@@ -67,35 +94,39 @@ def skills():
 
 @app.route('/rate-skill', methods=['POST'])
 def rate_skill():
-     try:
-         conn = get_db_connection()
-         cur = conn.cursor()
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
 
-         # Get votes from form
-         tech = request.form.get('tech')
-         vote_value = int(request.form.get('vote'))
-         tech_key = tech.lower() #lower for conflict
-         display_name = tech.title() #Proper cap
-         
-         # Store vote
-         cur.execute("""
-             INSERT INTO tech_stack(technology_key, display_name, proficiency)
-             VALUES (%s,%s,%s)
-             ON CONFLICT(technology_key) DO UPDATE SET
-                     display_name = EXCLUDED.display_name,
-                     proficiency = EXCLUDED.proficiency
-             RETURNING *
-         """, [tech.key, display_name, vote_value])
-         
-         conn.commit()
-     except Exception as e:
-         print(f"Error saving vote {e}")
-         return {'status': 'error'}
-     finally:
-         if conn:
-             conn.close()
+        # Get votes from form
+        tech = request.form.get('tech', '').strip()
+        vote_value = int(request.form.get('vote', 0))
 
-     return {'status': 'success'}
+        if not tech or vote_value < 1 or vote_value > 5:
+            return {'status': 'error', 'message': 'Invalid input'}
+
+        tech_key = tech.lower() #lower for conflict
+        display_name = tech #Proper cap
+        
+        # Store vote
+        cur.execute("""
+            INSERT INTO tech_stack(technology_key, display_name, proficiency)
+            VALUES (%s,%s,%s)
+            ON CONFLICT(technology_key) DO UPDATE SET
+                    display_name = EXCLUDED.display_name,
+                    proficiency = EXCLUDED.proficiency
+            RETURNING *
+        """, [tech.key, display_name, vote_value])
+        
+        conn.commit()
+    except Exception as e:
+        print(f"Error saving vote {e}")
+        return {'status': 'error', 'message': str(e)}  
+    finally:
+        if 'conn' in locals():
+            conn.close()
+
+    return {'status': 'success'}
  
 def get_skill_levels():
      try:
@@ -104,13 +135,17 @@ def get_skill_levels():
          
          # Average votes per technology
          cur.execute("""
-             SELECT display_name::text AS tech,
+             SELECT display_name AS tech,
                      ROUND(AVG(proficiency)):: INT AS level 
              FROM tech_stack 
-             GROUP BY display_name, technology_key
+             GROUP BY display_name
+             ORDER BY display_name
          """)
          
-         return {row[0]: row[1] for row in cur}
+         result = {row: row[1] for row in cur.fetchall()}
+         cur.close()
+         conn.close()
+         return result
           
      except Exception as e:
           print(f"Error getting levels {e}")
