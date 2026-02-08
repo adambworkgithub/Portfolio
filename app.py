@@ -29,7 +29,7 @@ def init_db():
     """)
 
     cur.execute("""
-        CREATE TABLE tech_stack (
+        CREATE TABLE IF NOT EXISTS tech_stack (
             id SERIAL PRIMARY KEY,
             technology_key VARCHAR(255) UNIQUE,
             display_name VARCHAR(255),
@@ -68,6 +68,7 @@ def init_db():
 
     conn.commit()
     cur.close()
+    conn.close()
 
 def log_visit(page):
     conn = get_db_connection()
