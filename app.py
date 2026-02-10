@@ -64,7 +64,7 @@ def init_db():
             ON CONFLICT (technology_key) DO UPDATE SET
                 display_name = EXCLUDED.display_name,
                 proficiency = EXCLUDED.proficiency;
-        """, (tech_key.lower(), display_name.title(), proficiency)) 
+        """, (tech_key.lower(), display_name, proficiency)) 
 
     conn.commit()
     cur.close()
@@ -109,7 +109,29 @@ def rate_skill():
 
         tech_key = tech.lower() #lower for conflict
         display_name = tech #Proper cap
-        
+
+        DISPLAY_NAMES = {
+    "access": "Access",
+    "adobe illustrator": "Adobe Illustrator",
+    "adobe photoshop": "Adobe Photoshop",
+    "adobe xd": "Adobe XD",
+    "arduino": "Arduino",
+    "autodesk fusion 360": "Autodesk Fusion 360",
+    "canva": "Canva",
+    "css": "CSS",
+    "excel": "Excel",
+    "figma": "Figma",
+    "flask": "Flask",
+    "git": "Git",
+    "html": "HTML",
+    "javascript": "JavaScript",
+    "postgresql": "PostgreSQL",
+    "python": "Python",
+    "sql": "SQL",
+}
+        tech_key = tech.lower()
+        display_name = DISPLAY_NAMES.get(tech_key, tech) #Fallback to title case
+
         # Store vote
         cur.execute("""
             INSERT INTO tech_stack(technology_key, display_name, proficiency)
@@ -144,7 +166,9 @@ def get_skill_levels():
              ORDER BY display_name
          """)
          
-         result = {row: row[1] for row in cur.fetchall()}
+         rows = cur.fetchall()
+         result = {row[0]: row[1] for row in rows}
+
          cur.close()
          conn.close()
          return result
